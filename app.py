@@ -69,9 +69,10 @@ with st.sidebar:
     )
 
     # display a multi-select box to select the different premise types
+    sortedPremiseTypes = sorted(list(crimeData['PremiseType'].unique()))
     selectedPremiseType = st.multiselect(
         "Select Premise Types",
-        list(crimeData['PremiseType'].unique()),
+        sortedPremiseTypes,
         placeholder="All"
     )
 
@@ -322,14 +323,14 @@ with predTab:
     # )
     nextMonth = predictTotalCrimesModel(crimeData[filteredCrimeData])
     if nextMonth == 0:
-        st.error("Not enough data to predict the next month's total crime")
+        st.error("At least 12 months of data are needed to predict the next month's crime count")
     else:
         st.metric(label="This Month's Total Predicted Crime", value=nextMonth)
 
     st.header("Decision Tree Model Predictions")
 
     if predictedDates is None:
-        st.error("Not enough data to predict the next 50 crimes")
+        st.error("At least 115 crimes are needed to predict the next 50 crimes")
     else:
         col1, col2 = st.columns([1, 4])
         with col1:
